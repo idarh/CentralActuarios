@@ -1,6 +1,7 @@
 package com.example.sistemas.centralactuarios;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -104,8 +105,9 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_sync) {
 
         } else if (id == R.id.nav_map) {
-
-            Toast.makeText(this.getApplicationContext(),"sdfsdfsdf",Toast.LENGTH_SHORT).show();
+            Intent i = new Intent(this, MapActivity.class);
+            startActivity(i);
+            //Toast.makeText(this.getApplicationContext(),"sdfsdfsdf",Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_justify) {
 
         } else if (id == R.id.nav_location) {
