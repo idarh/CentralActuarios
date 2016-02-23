@@ -22,7 +22,7 @@ private Context ctx;
     @Override
     public boolean onTap(LatLong tapLatLong, Point layerXY, Point tapXY) {
         if (this.contains(layerXY, tapXY)){
-         Toast.makeText(ctx, "Marcador con latitud: " + tapLatLong.latitude + " y longitud: " + tapLatLong.longitude, Toast.LENGTH_SHORT).show();
+         Toast.makeText(ctx, "Marcador con latitud: " + tapLatLong.latitude + " y una longitud: " + tapLatLong.longitude, Toast.LENGTH_SHORT).show();
          return true;
      }
         return super.onTap(tapLatLong,layerXY, tapXY);
