@@ -16,14 +16,13 @@ private Context ctx;
 
     public MyMarker(Context ctx, LatLong latLong, Bitmap bitmap, int horizontalOffset, int verticalOffset) {
         super(latLong, bitmap, horizontalOffset, verticalOffset);
-
         this.ctx = ctx;
     }
 
     @Override
     public boolean onTap(LatLong tapLatLong, Point layerXY, Point tapXY) {
         if (this.contains(layerXY, tapXY)){
-         Toast.makeText(ctx, "Marker con latitud: " + tapLatLong.latitude + " y longitud: " + tapLatLong.longitude, Toast.LENGTH_SHORT).show();
+         Toast.makeText(ctx, "Marcador con latitud: " + tapLatLong.latitude + " y longitud: " + tapLatLong.longitude, Toast.LENGTH_SHORT).show();
          return true;
      }
         return super.onTap(tapLatLong,layerXY, tapXY);
