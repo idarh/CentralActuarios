@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         ctx = this.getApplicationContext();
 
-        Button boton = (Button) findViewById(R.id.email_sign_in_button); //Definimos el boton
+      /*  Button boton = (Button) findViewById(R.id.email_sign_in_button); //Definimos el boton
         boton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity
                 }
 
             }
-        }); //Le asignamos el evento onclick
+        }); //Le asignamos el evento onclick*/
 
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -102,13 +102,19 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_sync) {
+        if (id == R.id.nav_login) {
+            Intent i = new Intent(this, LoginActivity.class);
+            startActivity(i);
+
+        } else if (id == R.id.nav_sync) {
 
         } else if (id == R.id.nav_map) {
             Intent i = new Intent(this, MapActivity.class);
             startActivity(i);
-            //Toast.makeText(this.getApplicationContext(),"sdfsdfsdf",Toast.LENGTH_SHORT).show();
+
         } else if (id == R.id.nav_justify) {
+            Intent i = new Intent(this, JustificarActivity.class);
+            startActivity(i);
 
         } else if (id == R.id.nav_location) {
 

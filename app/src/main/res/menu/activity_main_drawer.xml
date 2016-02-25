@@ -3,6 +3,10 @@
 
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/nav_login"
+            android:icon="@mipmap/ic_launcher_login"
+            android:title="Login" />
+        <item
             android:id="@+id/nav_sync"
             android:icon="@mipmap/ic_launcher_sync"
             android:title="Sincronizar" />

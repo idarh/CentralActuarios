@@ -28,6 +28,19 @@
             android:label="Central de Acturarios"
             android:theme="@style/AppTheme.NoActionBar"
             android:parentActivityName=".MainActivity"/>
+
+        <activity android:name=".LoginActivity"
+            android:theme="@style/AppTheme"   />
+
+        <activity android:name=".SignupActivity"
+            android:theme="@style/AppTheme"  />
+
+        <activity android:name=".JustificarActivity"
+            android:label="Central de Acturarios"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".MainActivity"/>
+
+
     </application>
 
 </manifest>
