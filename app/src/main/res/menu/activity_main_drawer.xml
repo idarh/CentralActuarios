@@ -2,10 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <group android:checkableBehavior="single">
-        <item
+     <!--   <item
             android:id="@+id/nav_login"
             android:icon="@mipmap/ic_launcher_login"
-            android:title="Login" />
+            android:title="Login" />  -->
         <item
             android:id="@+id/nav_sync"
             android:icon="@mipmap/ic_launcher_sync"
@@ -14,6 +14,11 @@
             android:id="@+id/nav_map"
             android:icon="@mipmap/ic_launcher_map"
             android:title="Consultar Ruta" />
+
+        <item
+            android:id="@+id/nav_iniciar"
+            android:icon="@mipmap/ic_launcher_iniciar"
+            android:title="Iniciar Ruta" />
         <item
             android:id="@+id/nav_justify"
             android:icon="@mipmap/ic_launcher_justify"

@@ -102,15 +102,22 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_login) {
+    /*    if (id == R.id.nav_login) {
             Intent i = new Intent(this, LoginActivity.class);
             startActivity(i);
 
-        } else if (id == R.id.nav_sync) {
+        } else */
+
+        if (id == R.id.nav_sync) {
 
         } else if (id == R.id.nav_map) {
             Intent i = new Intent(this, MapActivity.class);
             startActivity(i);
+
+        } else if (id == R.id.nav_iniciar) {
+            Intent i = new Intent(this, MapActivity.class);
+            startActivity(i);
+
 
         } else if (id == R.id.nav_justify) {
             Intent i = new Intent(this, JustificarActivity.class);
