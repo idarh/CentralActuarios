@@ -96,7 +96,7 @@ public class MapActivity extends Activity {
             @Override
             public void onReceive(Context context, Intent intent) {
                 mapView.getModel().mapViewPosition.setCenter(new LatLong(intent.getDoubleExtra("latitud",17.0706371), intent.getDoubleExtra("longitud",-96.7392065)));
-                mapView.getLayerManager().getLayers().add(addMarker(intent.getDoubleExtra("latitud",17.0706371), intent.getDoubleExtra("longitud",-96.7392065),"center"));
+               // mapView.getLayerManager().getLayers().add(addMarker(intent.getDoubleExtra("latitud",17.0706371), intent.getDoubleExtra("longitud",-96.7392065),"center"));
                 Toast.makeText(context, "broadcast recibido en el mapa", Toast.LENGTH_SHORT).show();
                 Log.d("TAG", "Broadcast recibido en el mapa");
             }
