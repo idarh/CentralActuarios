@@ -24,13 +24,16 @@
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
         android:text="Central de Actuarios"
+        android:textSize="16dp"
+        android:textColor="#ffffff"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="284dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="sistemas@tribunaloaxaca.com"
+        android:textSize="13dp"
         android:textColor="#ffffff" />
 
 </LinearLayout>

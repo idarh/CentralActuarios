@@ -33,8 +33,6 @@ public class LoginActivity extends Activity {
             @Override
             public void onClick(View v) {
                 login();
-                /*Intent i = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(i);*/
             }
         });
 
@@ -50,11 +48,9 @@ public class LoginActivity extends Activity {
     }
 
     public void login() {
-       /* Log.d(TAG, "Login");*/
-        Intent i = new Intent(this, MainActivity.class);
-        startActivity(i);
+        Log.d(TAG, "Login");
 
-        if (!validate()) {
+       if (!validate()) {
             onLoginFailed();
             return;
         }
@@ -109,8 +105,12 @@ public class LoginActivity extends Activity {
 
     public void onLoginFailed() {
         Toast.makeText(getBaseContext(), "Login fallido", Toast.LENGTH_LONG).show();
-
         _loginButton.setEnabled(true);
+
+
+        Intent i = new Intent(this, Estado.class);
+        startActivity(i);
+
     }
 
     public boolean validate() {

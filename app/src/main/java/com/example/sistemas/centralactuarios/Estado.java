@@ -1,5 +1,6 @@
 package com.example.sistemas.centralactuarios;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,13 +15,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
+/**
+ * Created by Sistemas on 26/02/2016.
+ */
+public class Estado extends Activity
+    implements NavigationView.OnNavigationItemSelectedListener {
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
-
+    private Context context;
     private Context ctx;
 
     @Override
@@ -28,22 +29,8 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+
         ctx = this.getApplicationContext();
-
-      /*  Button boton = (Button) findViewById(R.id.email_sign_in_button); //Definimos el boton
-        boton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TextView campo_texto = (TextView) findViewById(R.id.email); //Definimos el campo de texto
-                if (v.getId() == R.id.email_sign_in_button) { //Si se ha pulsado btPrincipal
-//                    setContentView(R.layout.updatedir_activity);
-                    Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-                }
-
-            }
-        }); //Le asignamos el evento onclick*/
-
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -64,7 +51,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
-    @Override
+   /* @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
@@ -72,7 +59,14 @@ public class MainActivity extends AppCompatActivity
         } else {
             super.onBackPressed();
         }
+    }*/
+
+       @Override
+    public void onBackPressed() {
+        // disable going back to the MainActivity
+        moveTaskToBack(true);
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
