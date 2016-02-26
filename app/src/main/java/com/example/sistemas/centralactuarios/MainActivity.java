@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity
             startActivity(i);
 
         } else if (id == R.id.nav_iniciar) {
-            Intent i = new Intent(this, MapActivity.class);
+            Intent i = new Intent(this, IniciarRuta.class);
             startActivity(i);
 
 

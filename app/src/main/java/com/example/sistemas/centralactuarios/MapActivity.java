@@ -1,11 +1,14 @@
 package com.example.sistemas.centralactuarios;
 
 import android.app.Activity;
+import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Toast;
 
 import org.mapsforge.core.model.LatLong;
 import org.mapsforge.map.android.graphics.AndroidGraphicFactory;
@@ -77,16 +80,20 @@ public class MapActivity extends Activity {
         lista.add(new LatLong(17.0706333, -96.737565));
         lista.add(new LatLong(17.0768011, -96.7442329));
         mapView.getLayerManager().getLayers().add(new PaintRout().addRoute(lista,5, Color.GREEN));
- /** comentarios
-
-
-**/
     }
+
+
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        Toast.makeText(this, "Activity destruida", Toast.LENGTH_SHORT).show();
+    }
+
 
     private Marker addMarker(double lat, double lng)
     {
         MyMarker marker = new MyMarker(this, new LatLong(lat,lng),
                 AndroidGraphicFactory.convertToBitmap(getResources().getDrawable(R.mipmap.ic_launcher_green_marker)),0,0);
-        return  marker;
+                return  marker;
     }
 }

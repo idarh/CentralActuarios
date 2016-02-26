@@ -7,7 +7,10 @@
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <application
         android:allowBackup="true"
@@ -41,7 +44,25 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:parentActivityName=".MainActivity"/>
 
+        <activity android:name=".IniciarRuta"
+            android:label="Central de Acturarios"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".MainActivity"/>
 
+        <receiver android:name=".MyReceiverLocation">
+
+            <intent-filter>
+                <action android:name="com.example.sistemas.centralactuarios.CHANGE_LOCATION_INTENT">
+                </action>
+            </intent-filter>
+
+        </receiver>
+
+        <service
+            android:name=".ServicioGPS"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
     </application>
 
 </manifest>
