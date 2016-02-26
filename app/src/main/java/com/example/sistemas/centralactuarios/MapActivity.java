@@ -1,12 +1,17 @@
 package com.example.sistemas.centralactuarios;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -30,6 +35,10 @@ public class MapActivity extends Activity {
     private MapView mapView;
     private TileCache tileCache;
     private TileRendererLayer tileRendererLayer;
+
+    private BroadcastReceiver receiver;
+    private IntentFilter filter = new IntentFilter("com.example.sistemas.centralactuarios.CHANGE_LOCATION_INTENT");
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,13 +82,26 @@ public class MapActivity extends Activity {
         mapView.getMapScaleBar().setVisible(false);
 
         mapView.getModel().mapViewPosition.setCenter(new LatLong(17.0706371, -96.7392065));
-        mapView.getLayerManager().getLayers().add(addMarker(17.0706333, -96.737565));
-        mapView.getLayerManager().getLayers().add(addMarker(17.0768011, -96.7442327));
+        mapView.getLayerManager().getLayers().add(addMarker(17.0706333, -96.737565, "green"));
+        mapView.getLayerManager().getLayers().add(addMarker(17.0768011, -96.7442327,"green"));
 
         List<LatLong> lista = new ArrayList<LatLong>();
         lista.add(new LatLong(17.0706333, -96.737565));
         lista.add(new LatLong(17.0768011, -96.7442329));
         mapView.getLayerManager().getLayers().add(new PaintRout().addRoute(lista,5, Color.GREEN));
+
+
+  //Se configura el receptor para los broadcast de cambio de ubicación y seguimiento en el mapa.
+          receiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                mapView.getModel().mapViewPosition.setCenter(new LatLong(intent.getDoubleExtra("latitud",17.0706371), intent.getDoubleExtra("longitud",-96.7392065)));
+                mapView.getLayerManager().getLayers().add(addMarker(intent.getDoubleExtra("latitud",17.0706371), intent.getDoubleExtra("longitud",-96.7392065),"center"));
+                Toast.makeText(context, "broadcast recibido en el mapa", Toast.LENGTH_SHORT).show();
+                Log.d("TAG", "Broadcast recibido en el mapa");
+            }
+        };
+
     }
 
 
@@ -90,10 +112,47 @@ public class MapActivity extends Activity {
     }
 
 
-    private Marker addMarker(double lat, double lng)
+    private Marker addMarker(double lat, double lng, String type_marker)
     {
-        MyMarker marker = new MyMarker(this, new LatLong(lat,lng),
-                AndroidGraphicFactory.convertToBitmap(getResources().getDrawable(R.mipmap.ic_launcher_green_marker)),0,0);
+            MyMarker marker = new MyMarker(this, new LatLong(lat, lng),
+                    AndroidGraphicFactory.convertToBitmap(icon_select(type_marker)), 0, 0);
+
                 return  marker;
     }
+
+    private Drawable icon_select(String type_marker){
+        Drawable icon_image = null;
+        switch (type_marker) {
+            case "green":
+            icon_image = getResources().getDrawable(R.mipmap.ic_launcher_green_marker);
+                break;
+            case "red":
+                icon_image = getResources().getDrawable(R.mipmap.ic_launcher_green_marker);
+                break;
+            case "center":
+                icon_image = getResources().getDrawable(R.mipmap.ic_launcher_current_position);
+                break;
+            case "default":
+                icon_image = getResources().getDrawable(R.mipmap.ic_launcher_green_marker);
+                break;
+        }
+        return icon_image;
+    }
+
+    @Override
+    protected void onResume() {
+
+        // Registra el receptor del broadcast si la actividad está al frente
+        this.registerReceiver(receiver, filter);
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+
+        // Deja de escuchar al broadcast si la aplicación esta en pausa.
+        this.unregisterReceiver(receiver);
+        super.onPause();
+    }
+
 }
