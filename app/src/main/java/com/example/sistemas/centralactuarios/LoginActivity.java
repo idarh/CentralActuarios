@@ -1,23 +1,35 @@
 package com.example.sistemas.centralactuarios;
 
 import android.app.ProgressDialog;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.app.Activity;
 import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+
 
 public class LoginActivity extends Activity {
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
 
-    @InjectView(R.id.input_email) EditText _emailText;
+    ConnectionClass connectionClass;
+    EditText edtuserid,edtpass;
+    Button btnlogin;
+    ProgressBar pbbar;
+
+    @InjectView(R.id.input_nuempleado) EditText _nuempleadoText;
     @InjectView(R.id.input_password) EditText _passwordText;
     @InjectView(R.id.btn_login) Button _loginButton;
     @InjectView(R.id.link_signup) TextView _signupLink;
@@ -28,111 +40,130 @@ public class LoginActivity extends Activity {
         setContentView(R.layout.activity_login);
         ButterKnife.inject(this);
 
-        _loginButton.setOnClickListener(new View.OnClickListener() {
+        connectionClass = new ConnectionClass();
+        edtuserid = (EditText) findViewById(R.id.input_nuempleado);
+        edtpass = (EditText) findViewById(R.id.input_password);
+        btnlogin = (Button) findViewById(R.id.btn_login);
+        pbbar = (ProgressBar) findViewById(R.id.pbbar);
+        pbbar.setVisibility(View.GONE);
+        btnlogin.setOnClickListener(new View.OnClickListener() {
+
 
             @Override
             public void onClick(View v) {
-                login();
-            }
-        });
-
-        _signupLink.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                // Start the Signup activity
-                Intent intent = new Intent(getApplicationContext(), SignupActivity.class);
-                startActivityForResult(intent, REQUEST_SIGNUP);
+                DoLogin doLogin = new DoLogin();
+                doLogin.execute("");
             }
         });
     }
+    public class DoLogin extends AsyncTask<String,String,String>
+    {
+        String z = "";
+        Boolean isSuccess = false;
+        String userid = edtuserid.getText().toString();
+        String password = edtpass.getText().toString();
 
-    public void login() {
-        Log.d(TAG, "Login");
+        @Override
+        protected void onPreExecute() {
+            pbbar.setVisibility(View.VISIBLE);
+        }
+        @Override
+        protected void onPostExecute(String r) {
+            pbbar.setVisibility(View.GONE);
+            Toast.makeText(LoginActivity.this,r,Toast.LENGTH_SHORT).show();
 
-       if (!validate()) {
-            onLoginFailed();
-            return;
+            if (!validate()) {
+                onLoginFailed();
+                return;
+            }
+
+            if(isSuccess) {
+
+                _loginButton.setEnabled(false);
+
+                final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this,
+                        R.style.Base_V7_Theme_AppCompat_Light_Dialog);
+                progressDialog.setIndeterminate(true);
+                progressDialog.setMessage("Validando...");
+                progressDialog.show();
+
+
+                Intent i = new Intent(LoginActivity.this, Estado.class);
+                startActivity(i);
+                finish();
+            }
         }
 
-        _loginButton.setEnabled(false);
+        public void onLoginSuccess() {
+            _loginButton.setEnabled(true);
+            finish();
+        }
 
-        final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this,
-                R.style.Base_Theme_AppCompat_Dialog);
-        progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Autenticando...");
-        progressDialog.show();
+        public void onLoginFailed() {
+            Toast.makeText(getBaseContext(), "Login fallido", Toast.LENGTH_LONG).show();
 
-        String email = _emailText.getText().toString();
-        String password = _passwordText.getText().toString();
+            _loginButton.setEnabled(true);
+        }
 
-        // TODO: Implement your own authentication logic here.
 
-        new android.os.Handler().postDelayed(
-                new Runnable() {
-                    public void run() {
-                        // On complete call either onLoginSuccess or onLoginFailed
-                        onLoginSuccess();
-                        // onLoginFailed();
-                        progressDialog.dismiss();
+        public boolean validate() {
+            boolean valid = true;
+
+            String nempleado = _nuempleadoText.getText().toString();
+            String password = _passwordText.getText().toString();
+
+            if (nempleado.isEmpty() || nempleado.length() < 0 || password.length() > 5) {
+                _nuempleadoText.setError("Número de Empleado No Registrado");
+                valid = false;
+            } else {
+                _nuempleadoText.setError(null);
+            }
+
+            if (password.isEmpty() || password.length() < 4 || password.length() > 20) {
+                _passwordText.setError("Entre 4 y 20 Caracteres");
+                valid = false;
+            } else {
+                _passwordText.setError(null);
+            }
+
+            return valid;
+        }
+
+
+        @Override
+        protected String doInBackground(String... params) {
+            if(userid.trim().equals("")|| password.trim().equals(""))
+                z = "Ingresa un Número de Empleado y Contraseña";
+            else
+            {
+
+                try {
+                    Connection con = connectionClass.CONN();
+                    if (con == null) {
+                        z = "Error en conexión con SQL server";
+                    } else {
+                        String query = "select * from Usertbl where UserId='" + userid + "' and password='" + password + "'";
+                        Statement stmt = con.createStatement();
+                        ResultSet rs = stmt.executeQuery(query);
+                        if(rs.next())
+                        {
+                            z = "Registro Exitoso";
+                            isSuccess=true;
+                        }
+                        else
+                        {
+                            z = "¡Registro Invalido!";
+                            isSuccess = false;
+                        }
                     }
-                }, 3000);
-    }
-
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_SIGNUP) {
-            if (resultCode == RESULT_OK) {
-
-                // TODO: Implement successful signup logic here
-                // By default we just finish the Activity and log them in automatically
-                this.finish();
+                }
+                catch (Exception ex)
+                {
+                    isSuccess = false;
+                    z = "Exceptions";
+                }
             }
+            return z ;
         }
-    }
-
-  /*  @Override
-    public void onBackPressed() {
-        // disable going back to the MainActivity
-        moveTaskToBack(true);
-    }*/
-
-    public void onLoginSuccess() {
-        _loginButton.setEnabled(true);
-        finish();
-    }
-
-    public void onLoginFailed() {
-        Toast.makeText(getBaseContext(), "Login fallido", Toast.LENGTH_LONG).show();
-        _loginButton.setEnabled(true);
-
-
-        Intent i = new Intent(this, Estado.class);
-        startActivity(i);
-
-    }
-
-    public boolean validate() {
-        boolean valid = true;
-
-        String email = _emailText.getText().toString();
-        String password = _passwordText.getText().toString();
-
-        if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            _emailText.setError("Ingresa un número de empleado valido");
-            valid = false;
-        } else {
-            _emailText.setError(null);
-        }
-
-        if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
-            _passwordText.setError("Entre 4 y 10 caracteres alfanumericos");
-            valid = false;
-        } else {
-            _passwordText.setError(null);
-        }
-
-        return valid;
     }
 }
