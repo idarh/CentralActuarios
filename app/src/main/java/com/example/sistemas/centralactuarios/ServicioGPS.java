@@ -12,6 +12,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
@@ -30,6 +31,7 @@ public class ServicioGPS extends Service implements LocationListener{
     private final Context context;
     double lat;
     double lng;
+    long time;
     boolean gpsEnable;
     private LocationManager locationManager;
     private Location location;
@@ -37,6 +39,7 @@ public class ServicioGPS extends Service implements LocationListener{
     private String bestProvider;
 
     private Intent i;
+    private IntentFilter filter;
 
     public ServicioGPS(Context context) {
         this.context = context;
@@ -54,6 +57,8 @@ public class ServicioGPS extends Service implements LocationListener{
     @Override
     public void onCreate(){
         i = new Intent();
+        filter = new IntentFilter();
+        filter.addAction("com.example.sistemas.centralactuarios.CHANGE_LOCATION_INTENT");
         Toast.makeText(this.getApplicationContext(),"onCreate",Toast.LENGTH_SHORT).show();
     }
 
@@ -75,11 +80,17 @@ public class ServicioGPS extends Service implements LocationListener{
         if (location != null) {
             lat = location.getLatitude();
             lng = location.getLongitude();
-            Log.d("Tag ", "Coordenadas actuales. Lat = " + Double.toString(lat) + ", Lng = " + Double.toString(lng));
+            time = location.getTime();
+
+            Log.d("Tag ", "Coordenadas actuales. Lat = " + Double.toString(lat) + ", Lng = " + Double.toString(lng) + "Hora: " + Long.toString(time));
 
             //se lanza el intent sobre un bradcast para ser escuchado en las actividades dela app
             i.setAction("com.example.sistemas.centralactuarios.CHANGE_LOCATION_INTENT");
-            sendBroadcast(i);
+            i.putExtra("latitud", lat);
+            i.putExtra("longitud", lng);
+            i.putExtra("hora",time);
+            sendBroadcast(i);//se envia el evento en un broadcast
+
             Log.d("Tag ", "Broadcast enviado");
         }
         else{
@@ -115,7 +126,7 @@ public class ServicioGPS extends Service implements LocationListener{
         if(gpsEnable){ //si el proveedor de gps está activo
             //se hace la petición de las actualizacion en locaciones cada minuto (1000*60)  o cada 10 metros
             //locationManager.requestLocationUpdates(locationManager.GPS_PROVIDER, 1000 * 60, 10, this);//quitar en caso de que solo se tenga el GPS de la tablet
-            locationManager.requestLocationUpdates(bestProvider,1000,1,this);
+            locationManager.requestLocationUpdates(bestProvider,1000*60,10,this);
             //se obtiene la última posición conocida dada por el proveedor
             //location = locationManager.getLastKnownLocation(locationManager.GPS_PROVIDER);//descomentar cuando solo existe el GPS de la tablet
             //location = new Location();
@@ -132,4 +143,5 @@ public class ServicioGPS extends Service implements LocationListener{
             }
         }
     }
+
 }
