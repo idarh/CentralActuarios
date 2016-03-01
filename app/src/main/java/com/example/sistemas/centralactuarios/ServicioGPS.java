@@ -126,7 +126,7 @@ public class ServicioGPS extends Service implements LocationListener{
         if(gpsEnable){ //si el proveedor de gps está activo
             //se hace la petición de las actualizacion en locaciones cada minuto (1000*60)  o cada 10 metros
             //locationManager.requestLocationUpdates(locationManager.GPS_PROVIDER, 1000 * 60, 10, this);//quitar en caso de que solo se tenga el GPS de la tablet
-            locationManager.requestLocationUpdates(bestProvider,1000*60,10,this);
+            locationManager.requestLocationUpdates(bestProvider,1000,1,this);
             //se obtiene la última posición conocida dada por el proveedor
             //location = locationManager.getLastKnownLocation(locationManager.GPS_PROVIDER);//descomentar cuando solo existe el GPS de la tablet
             //location = new Location();
