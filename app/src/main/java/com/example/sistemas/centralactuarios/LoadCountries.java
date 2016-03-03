@@ -38,7 +38,7 @@ public class LoadCountries extends Activity {
     /*********** CONNECTION DATABASE VARIABLES **************/
     String usernameS;
     String datets;
-    String call="10.12.12.101", db="Andro", un="sa", passwords="masterkey";
+    String call="10.12.12.214", db="Andro", un="sa", passwords="matadamas1";
     Connection connect;
     ResultSet rs;
 

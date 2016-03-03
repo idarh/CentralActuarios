@@ -12,7 +12,9 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.View;
+import android.view.View.OnCreateContextMenuListener;
 import android.widget.Toast;
 
 import org.mapsforge.core.graphics.Canvas;
@@ -34,7 +36,7 @@ import java.util.List;
 
 //import static org.mapsforge.map.android.graphics.AndroidGraphicFactory.createInstance;
 
-public class MapActivity extends Activity {
+public class MapActivity extends Activity{
 
     private MapView mapView;
     private TileCache tileCache;
@@ -90,7 +92,7 @@ public class MapActivity extends Activity {
         marker_center = addMarker(17.0706371, -96.7392065,"center");
         mapView.getLayerManager().getLayers().add(marker_center);
 
-        mapView.getLayerManager().getLayers().add(addMarker(17.0806381, -96.7393090,"green"));
+        mapView.getLayerManager().getLayers().add(addMarker(17.0806381, -96.7393090, "green"));
         mapView.getLayerManager().getLayers().add(addMarker(17.0906381, -96.7394090,"red"));
         mapView.getLayerManager().getLayers().add(addMarker(17.1006381, -96.7396090,"blue_home"));
 
@@ -119,7 +121,7 @@ public class MapActivity extends Activity {
     @Override
     protected void onDestroy(){
         super.onDestroy();
-        Toast.makeText(this, "Activity destruida", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "Activity destruida", Toast.LENGTH_SHORT).show();
     }
 
 
@@ -128,8 +130,12 @@ public class MapActivity extends Activity {
             MyMarker marker = new MyMarker(this, new LatLong(lat, lng),
                     AndroidGraphicFactory.convertToBitmap(icon_select(type_marker)), 0, 0);
 
-                return  marker;
+        return  marker;
     }
+
+
+
+
 
     private Drawable icon_select(String type_marker){
         Drawable icon_image = null;
