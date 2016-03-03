@@ -15,10 +15,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import org.mapsforge.core.graphics.Canvas;
+import org.mapsforge.core.model.BoundingBox;
 import org.mapsforge.core.model.LatLong;
+import org.mapsforge.core.model.Point;
 import org.mapsforge.map.android.graphics.AndroidGraphicFactory;
 import org.mapsforge.map.android.util.AndroidUtil;
 import org.mapsforge.map.android.view.MapView;
+import org.mapsforge.map.layer.Layer;
 import org.mapsforge.map.layer.cache.TileCache;
 import org.mapsforge.map.layer.overlay.Marker;
 import org.mapsforge.map.layer.renderer.TileRendererLayer;
@@ -38,8 +42,9 @@ public class MapActivity extends Activity {
 
     private BroadcastReceiver receiver;
     private IntentFilter filter = new IntentFilter("com.example.sistemas.centralactuarios.CHANGE_LOCATION_INTENT");
+    private int indice = 0;
 
-
+    private Marker marker_center = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,8 +68,8 @@ public class MapActivity extends Activity {
         mapView.getMapZoomControls().setZoomLevelMin((byte) 14);
         mapView.getMapZoomControls().setZoomLevelMax((byte) 20);
 
+        //Se leé el archio en donde se encuentra el mapa offLine
         String filepath = Environment.getExternalStorageDirectory() + "/maps/comp_centro.map";
-       // String filepath = "storage/emulated/sdcard1/maps/com_centro.map";
         File mapaCache = new File(filepath);
         //se renderiza la capa usando el tema interno
         tileRendererLayer = new TileRendererLayer(tileCache,
@@ -82,26 +87,32 @@ public class MapActivity extends Activity {
         mapView.getMapScaleBar().setVisible(false);
 
         mapView.getModel().mapViewPosition.setCenter(new LatLong(17.0706371, -96.7392065));
-        mapView.getLayerManager().getLayers().add(addMarker(17.0706333, -96.737565, "green"));
-        mapView.getLayerManager().getLayers().add(addMarker(17.0768011, -96.7442327,"green"));
+        marker_center = addMarker(17.0706371, -96.7392065,"center");
+        mapView.getLayerManager().getLayers().add(marker_center);
 
+        mapView.getLayerManager().getLayers().add(addMarker(17.0806381, -96.7393090,"green"));
+        mapView.getLayerManager().getLayers().add(addMarker(17.0906381, -96.7394090,"red"));
+        mapView.getLayerManager().getLayers().add(addMarker(17.1006381, -96.7396090,"blue_home"));
+
+        //lista de puntos dentro de la ruta
         List<LatLong> lista = new ArrayList<LatLong>();
         lista.add(new LatLong(17.0706333, -96.737565));
         lista.add(new LatLong(17.0768011, -96.7442329));
-        mapView.getLayerManager().getLayers().add(new PaintRout().addRoute(lista,5, Color.GREEN));
+
 
 
   //Se configura el receptor para los broadcast de cambio de ubicación y seguimiento en el mapa.
           receiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                mapView.getModel().mapViewPosition.setCenter(new LatLong(intent.getDoubleExtra("latitud",17.0706371), intent.getDoubleExtra("longitud",-96.7392065)));
-               // mapView.getLayerManager().getLayers().add(addMarker(intent.getDoubleExtra("latitud",17.0706371), intent.getDoubleExtra("longitud",-96.7392065),"center"));
-                Toast.makeText(context, "broadcast recibido en el mapa", Toast.LENGTH_SHORT).show();
-                Log.d("TAG", "Broadcast recibido en el mapa");
+              @Override
+              public void onReceive(Context context, Intent intent) {
+                  mapView.getModel().mapViewPosition.setCenter(new LatLong(intent.getDoubleExtra("latitud", 17.0706371), intent.getDoubleExtra("longitud", -96.7392065)));
+                  mapView.getLayerManager().getLayers().remove(marker_center);
+                  marker_center = addMarker(intent.getDoubleExtra("latitud", 17.0706371), intent.getDoubleExtra("longitud", -96.7392065), "center");
+                  mapView.getLayerManager().getLayers().add(marker_center);
+                //Toast.makeText(context, "broadcast recibido en el mapa", Toast.LENGTH_SHORT).show();
+                  Log.d("TAG", "Broadcast recibido en el mapa");
             }
         };
-
     }
 
 
@@ -124,16 +135,16 @@ public class MapActivity extends Activity {
         Drawable icon_image = null;
         switch (type_marker) {
             case "green":
-            icon_image = getResources().getDrawable(R.mipmap.ic_launcher_green_marker);
+            icon_image = getResources().getDrawable(R.mipmap.ic_launcher_round_check_green);
                 break;
             case "red":
-                icon_image = getResources().getDrawable(R.mipmap.ic_launcher_green_marker);
+                icon_image = getResources().getDrawable(R.mipmap.ic_launcher_uncheck_red);
                 break;
             case "center":
-                icon_image = getResources().getDrawable(R.mipmap.ic_launcher_current_position);
+                icon_image = getResources().getDrawable(R.mipmap.ic_launcher_blue_dot);
                 break;
-            case "default":
-                icon_image = getResources().getDrawable(R.mipmap.ic_launcher_green_marker);
+            case "blue_home":
+                icon_image = getResources().getDrawable(R.mipmap.ic_launcher_round_house_blue);
                 break;
         }
         return icon_image;
