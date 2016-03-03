@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,6 +19,9 @@ import java.sql.Statement;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+
+import com.skyfishjy.library.RippleBackground;
+
 
 
 public class LoginActivity extends Activity {
@@ -39,6 +43,16 @@ public class LoginActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.inject(this);
+
+        final RippleBackground rippleBackground=(RippleBackground)findViewById(R.id.content);
+        ImageView imageView = (ImageView) findViewById(R.id.centerImage);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                rippleBackground.startRippleAnimation();
+            }
+        });
+
 
         connectionClass = new ConnectionClass();
         edtuserid = (EditText) findViewById(R.id.input_nuempleado);
@@ -112,7 +126,7 @@ public class LoginActivity extends Activity {
             String nempleado = _nuempleadoText.getText().toString();
             String password = _passwordText.getText().toString();
 
-            if (nempleado.isEmpty() || nempleado.length() < 0 || password.length() > 5) {
+            if (nempleado.isEmpty() || nempleado.length() < 0 || nempleado.length() > 5) {
                 _nuempleadoText.setError("Número de Empleado No Registrado");
                 valid = false;
             } else {
@@ -132,11 +146,7 @@ public class LoginActivity extends Activity {
 
         @Override
         protected String doInBackground(String... params) {
-            if(userid.trim().equals("")|| password.trim().equals(""))
-                z = "Ingresa un Número de Empleado y Contraseña";
-            else
             {
-
                 try {
                     Connection con = connectionClass.CONN();
                     if (con == null) {

@@ -102,6 +102,8 @@ public class MainActivity extends AppCompatActivity
 
 
         if (id == R.id.nav_sync) {
+            Intent i = new Intent(this, LoadCountries.class);
+            startActivity(i);
 
         } else if (id == R.id.nav_map) {
             Intent i = new Intent(this, MapActivity.class);
@@ -117,6 +119,8 @@ public class MainActivity extends AppCompatActivity
             startActivity(i);
 
         } else if (id == R.id.nav_location) {
+            Intent i = new Intent(this, LoadCountries.class);
+            startActivity(i);
 
         } else if (id == R.id.nav_share) {
 
