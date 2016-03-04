@@ -147,7 +147,7 @@ public class LoginActivity extends Activity {
         @Override
         protected String doInBackground(String... params) {
             {
-                try {
+                /*try {
                     Connection con = connectionClass.CONN();
                     if (con == null) {
                         z = "Error en conexión con SQL server";
@@ -171,8 +171,9 @@ public class LoginActivity extends Activity {
                 {
                     isSuccess = false;
                     z = "Exceptions";
-                }
+                }*/
             }
+            isSuccess=true;
             return z ;
         }
     }
