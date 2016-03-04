@@ -15,8 +15,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-
-
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private Context ctx;
@@ -28,19 +26,6 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ctx = this.getApplicationContext();
-
-      /*  Button boton = (Button) findViewById(R.id.email_sign_in_button); //Definimos el boton
-        boton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TextView campo_texto = (TextView) findViewById(R.id.email); //Definimos el campo de texto
-                if (v.getId() == R.id.email_sign_in_button) { //Si se ha pulsado btPrincipal
-//                    setContentView(R.layout.updatedir_activity);
-                    Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-                }
-
-            }
-        }); //Le asignamos el evento onclick*/
 
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -62,7 +47,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
-    @Override
+        @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
@@ -94,16 +79,17 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
+  /*  @SuppressWarnings("StatementWithEmptyBody")*/
+
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-
         if (id == R.id.nav_sync) {
             Intent i = new Intent(this, MapActivity.class);
             startActivity(i);
+
         } else if (id == R.id.nav_map) {
             Intent i = new Intent(this, LoadCountries.class);
             startActivity(i);
@@ -111,7 +97,6 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_iniciar) {
             Intent i = new Intent(this, IniciarRuta.class);
             startActivity(i);
-
 
         } else if (id == R.id.nav_justify) {
             Intent i = new Intent(this, JustificarActivity.class);
