@@ -36,7 +36,6 @@ public class LoginActivity extends Activity {
     @InjectView(R.id.input_nuempleado) EditText _nuempleadoText;
     @InjectView(R.id.input_password) EditText _passwordText;
     @InjectView(R.id.btn_login) Button _loginButton;
-    @InjectView(R.id.link_signup) TextView _signupLink;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -44,6 +43,7 @@ public class LoginActivity extends Activity {
         setContentView(R.layout.activity_login);
         ButterKnife.inject(this);
 
+        /*Animacion*/
         final RippleBackground rippleBackground=(RippleBackground)findViewById(R.id.content);
         ImageView imageView = (ImageView) findViewById(R.id.centerImage);
         imageView.setOnClickListener(new View.OnClickListener() {
@@ -70,6 +70,8 @@ public class LoginActivity extends Activity {
             }
         });
     }
+
+
     public class DoLogin extends AsyncTask<String,String,String>
     {
         String z = "";
