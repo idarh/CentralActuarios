@@ -98,11 +98,9 @@ public class Estado extends Activity
 
 
         if (id == R.id.nav_sync) {
-            Intent i = new Intent(this, MapActivity.class);
-            startActivity(i);
 
         } else if (id == R.id.nav_map) {
-            Intent i = new Intent(this, LoadCountries.class);
+            Intent i = new Intent(this, MapActivity.class);
             startActivity(i);
 
         } else if (id == R.id.nav_iniciar) {
@@ -116,6 +114,8 @@ public class Estado extends Activity
         } else if (id == R.id.nav_location) {
             Intent i = new Intent(this, LoadCountries.class);
             startActivity(i);
+
+
 
         } else if (id == R.id.nav_share) {
 
