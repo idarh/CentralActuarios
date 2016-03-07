@@ -13,10 +13,13 @@ import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.ContextMenu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.View.OnCreateContextMenuListener;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import org.mapsforge.core.graphics.Bitmap;
 import org.mapsforge.core.graphics.Canvas;
 import org.mapsforge.core.model.BoundingBox;
 import org.mapsforge.core.model.LatLong;
@@ -41,6 +44,7 @@ public class MapActivity extends Activity{
     private MapView mapView;
     private TileCache tileCache;
     private TileRendererLayer tileRendererLayer;
+    private TextView lblPrueba;
 
     private BroadcastReceiver receiver;
     private IntentFilter filter = new IntentFilter("com.example.sistemas.centralactuarios.CHANGE_LOCATION_INTENT");
@@ -53,7 +57,8 @@ public class MapActivity extends Activity{
         AndroidGraphicFactory.createInstance(getApplication());
         setContentView(R.layout.activity_map);
 
-
+        lblPrueba = (TextView)findViewById(R.id.lblPrueba);
+        registerForContextMenu(lblPrueba);
 
         // Create a mapView and give it some properties
         mapView = (MapView) findViewById(R.id.mapView);
@@ -110,11 +115,13 @@ public class MapActivity extends Activity{
                   mapView.getModel().mapViewPosition.setCenter(new LatLong(intent.getDoubleExtra("latitud", 17.0706371), intent.getDoubleExtra("longitud", -96.7392065)));
                   mapView.getLayerManager().getLayers().remove(marker_center);
                   marker_center = addMarker(intent.getDoubleExtra("latitud", 17.0706371), intent.getDoubleExtra("longitud", -96.7392065), "center");
+
                   mapView.getLayerManager().getLayers().add(marker_center);
                 //Toast.makeText(context, "broadcast recibido en el mapa", Toast.LENGTH_SHORT).show();
                   Log.d("TAG", "Broadcast recibido en el mapa");
             }
         };
+        registerForContextMenu(mapView);
     }
 
 
@@ -127,11 +134,21 @@ public class MapActivity extends Activity{
 
     private Marker addMarker(double lat, double lng, String type_marker)
     {
-            MyMarker marker = new MyMarker(this, new LatLong(lat, lng),
-                    AndroidGraphicFactory.convertToBitmap(icon_select(type_marker)), 0, 0);
-
+        MyMarker marker = new MyMarker(getApplicationContext(), new LatLong(lat,lng),AndroidGraphicFactory.convertToBitmap(icon_select(type_marker)),0,0);
         return  marker;
     }
+
+
+
+@Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+    super.onCreateContextMenu(menu,v,menuInfo);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.ctx_menu_edit_on_map,menu);
+    }
+
+
+
 
 
 

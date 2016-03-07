@@ -5,6 +5,7 @@ package com.example.sistemas.centralactuarios;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
@@ -12,14 +13,19 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.widget.Toast;
 
+
+import android.view.Menu;
+import android.view.MenuInflater;
+
 import org.mapsforge.core.graphics.Bitmap;
 import org.mapsforge.core.model.LatLong;
 import org.mapsforge.core.model.Point;
 import org.mapsforge.map.layer.overlay.Marker;
 
-public class MyMarker extends Marker {
-private Context ctx;
+import static android.support.v4.app.ActivityCompat.startActivity;
 
+public class MyMarker extends Marker{
+private Context ctx;
     public MyMarker(Context ctx, LatLong latLong, Bitmap bitmap, int horizontalOffset, int verticalOffset) {
         super(latLong, bitmap, horizontalOffset, verticalOffset);
         this.ctx = ctx;
@@ -28,26 +34,23 @@ private Context ctx;
 
     @Override
     public boolean onTap(LatLong tapLatLong, Point layerXY, Point tapXY) {
-        /*if (this.contains(layerXY, tapXY)){
-
-
-
-            View.OnCreateContextMenuListener vC = new View.OnCreateContextMenuListener() {
-                @Override
-                public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-                    MenuInflater inflater = new MenuInflater(ctx);
-                    inflater.inflate(R.menu.ctx_menu_edit_on_map,);
-                }
-           };*/
-
-
-
-
-         //Toast.makeText(ctx, "Marcador con latitud: " + tapLatLong.latitude + " y una longitud: " + tapLatLong.longitude, Toast.LENGTH_SHORT).show();
-         //return true;
-    // }
+        if (this.contains(layerXY, tapXY)){
+         Toast.makeText(ctx, "Marcador tap corto con latitud: " + tapLatLong.latitude + " y una longitud: " + tapLatLong.longitude, Toast.LENGTH_SHORT).show();
+            Intent i = new Intent(ctx, JustificarActivity.class);
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            ctx.startActivity(i);
+     }
+       // return true;
         return super.onTap(tapLatLong,layerXY, tapXY);
     }
+/*
+    @Override
+    public boolean onTapLong(LatLong tapLatLong, Point layerXY, Point tapXY){
+        if (this.contains(layerXY, tapXY)){
+            Toast.makeText(ctx, "Marcador tap largo con latitud: " + tapLatLong.latitude + " y una longitud: " + tapLatLong.longitude, Toast.LENGTH_SHORT).show();
+        }
 
-
+        return super.onTap(tapLatLong,layerXY, tapXY);
+    }
+*/
 }

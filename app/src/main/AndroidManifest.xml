@@ -65,8 +65,6 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:parentActivityName=".MainActivity"/>
 
-
-
         <receiver android:name=".MyReceiverLocation">
 
             <intent-filter>
@@ -81,10 +79,6 @@
             android:enabled="true"
             android:exported="true" >
         </service>
-
-
-
-
 
     </application>
 
