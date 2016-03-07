@@ -18,6 +18,7 @@
 <string name="btnJustificarBoleta">Justificar boleta</string>
     <string name="btnActualizarDireccionBoleta">Actualizar dirección</string>
         <!--JUSTIFICACION-->
+    <string name="titulo_justificacion">Justificación de Boletas</string>
     <string name="prompt_boleta">Folio de Boleta</string>
 
 

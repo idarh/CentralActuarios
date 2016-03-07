@@ -3,19 +3,29 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/fontwhite</item>
+        <item name="colorPrimary">@color/appdark</item>
+        <item name="colorPrimaryDark">@color/appdark</item>
+        <item name="colorAccent">@color/black0</item>
 
 
         <item name="colorControlNormal">#ffffff</item>
-        <item name="colorControlActivated">@color/accent</item>
-        <item name="colorControlHighlight">@color/accent</item>
+        <item name="colorControlActivated">@color/applight</item>
+        <item name="colorControlHighlight">@color/applight</item>
         <item name="android:textViewStyle">@style/RobotoTextViewStyle</item>
         <item name="android:autoCompleteTextViewStyle">@style/RobotoAutoCompleteTextViewStyle</item>
         <item name="android:editTextStyle">@style/RobotoEditTextStyle</item>
+    </style>
 
+    <style name="RobotoTextViewStyle" parent="android:Widget.TextView">
+        <item name="android:fontFamily">sans-serif-light</item>
+    </style>
 
+    <style name="RobotoAutoCompleteTextViewStyle" parent="android:Widget.AutoCompleteTextView">
+        <item name="android:fontFamily">sans-serif-light</item>
+    </style>
+
+    <style name="RobotoEditTextStyle" parent="android:Widget.EditText">
+        <item name="android:fontFamily">sans-serif-light</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -27,17 +37,28 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="AppTheme.Dark" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/applight</item>
+        <item name="colorPrimaryDark">@color/appdark</item>
+        <item name="colorAccent">@color/applight</item>
 
-    <style name="RobotoTextViewStyle" parent="android:Widget.TextView">
-        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:windowBackground">@color/appdark</item>
+
+        <item name="colorControlNormal">@color/black500</item>
+        <item name="colorControlActivated">@color/black0</item>
+        <item name="colorControlHighlight">@color/black0</item>
+        <item name="android:textColorHint">@color/black500</item>
+
+        <item name="colorButtonNormal">@color/appdark</item>
+       <item name="android:colorButtonNormal">@color/appdark</item>
     </style>
-    <style name="RobotoAutoCompleteTextViewStyle" parent="android:Widget.AutoCompleteTextView">
-        <item name="android:fontFamily">sans-serif-light</item>
+
+    <style name="AppTheme.Dark.Dialog" parent="Theme.AppCompat.Dialog">
+        <item name="colorAccent">@color/black0</item>
+        <item name="android:textColorPrimary">@color/black500</item>
+        <item name="android:background">@color/applight</item>
     </style>
-    <style name="RobotoEditTextStyle" parent="android:Widget.EditText">
-        <item name="android:fontFamily">sans-serif-light</item>
-    </style>
-    <color name="accent">#ffffff</color>
+
 
 
 
