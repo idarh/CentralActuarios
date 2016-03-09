@@ -11,7 +11,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 
 public class ConnectionClass {
-    String ip = "192.168.0.7";
+    String ip = "10.12.12.101";
     String classs = "net.sourceforge.jtds.jdbc.Driver";
     String db = "Andro";
     String un = "sa";
