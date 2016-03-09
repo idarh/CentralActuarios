@@ -25,20 +25,32 @@ import org.mapsforge.map.layer.overlay.Marker;
 import static android.support.v4.app.ActivityCompat.startActivity;
 
 public class MyMarker extends Marker{
-private Context ctx;
+    private Context ctx;
+    private String numBoleta;
+    public MyMarker(Context ctx, LatLong latLong, Bitmap bitmap, int horizontalOffset, int verticalOffset, String numBoleta) {
+        super(latLong, bitmap, horizontalOffset, verticalOffset);
+        this.ctx = ctx;
+        this.numBoleta = numBoleta;
+    }
+
     public MyMarker(Context ctx, LatLong latLong, Bitmap bitmap, int horizontalOffset, int verticalOffset) {
         super(latLong, bitmap, horizontalOffset, verticalOffset);
         this.ctx = ctx;
-
+        this.numBoleta = null;
     }
+
+
 
     @Override
     public boolean onTap(LatLong tapLatLong, Point layerXY, Point tapXY) {
         if (this.contains(layerXY, tapXY)){
-         Toast.makeText(ctx, "Marcador tap corto con latitud: " + tapLatLong.latitude + " y una longitud: " + tapLatLong.longitude, Toast.LENGTH_SHORT).show();
-            Intent i = new Intent(ctx, JustificarActivity.class);
-            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            ctx.startActivity(i);
+        // Toast.makeText(ctx, "Marcador tap corto con latitud: " + tapLatLong.latitude + " y una longitud: " + tapLatLong.longitude, Toast.LENGTH_SHORT).show();
+          if (numBoleta != null) {
+              Intent i = new Intent(ctx, JustificarActivity.class);
+              i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+              i.putExtra("boleta",numBoleta);
+              ctx.startActivity(i);
+          }
      }
        // return true;
         return super.onTap(tapLatLong,layerXY, tapXY);

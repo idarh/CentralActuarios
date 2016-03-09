@@ -6,6 +6,7 @@ package com.example.sistemas.centralactuarios;
 
 import android.Manifest;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Service;
 import android.content.BroadcastReceiver;
@@ -21,10 +22,19 @@ import android.location.LocationManager;
 import android.nfc.Tag;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.IBinder;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.widget.Toast;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 
 public class ServicioGPS extends Service implements LocationListener{
 
@@ -38,6 +48,7 @@ public class ServicioGPS extends Service implements LocationListener{
     private Criteria criteria;
     private String bestProvider;
 
+    private String archivo = "archivo_prueba_ruta.cjo";
     private Intent i;
     private IntentFilter filter;
 
@@ -59,19 +70,20 @@ public class ServicioGPS extends Service implements LocationListener{
         i = new Intent();
         filter = new IntentFilter();
         filter.addAction("com.example.sistemas.centralactuarios.CHANGE_LOCATION_INTENT");
-        Toast.makeText(this.getApplicationContext(),"onCreate",Toast.LENGTH_SHORT).show();
+           if (!crearArchivo(archivo))
+               Toast.makeText(this.getApplicationContext(),"No se pudo crear el archivo.",Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public int onStartCommand(Intent i, int flags, int startId){
         getLocation();
-        Toast.makeText(this.getApplicationContext(),"Servicio creado",Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this.getApplicationContext(),"Servicio creado",Toast.LENGTH_SHORT).show();
         return START_NOT_STICKY;
     }
 
     public void onDestroy(){
         stopSelf();
-        Toast.makeText(this.getApplicationContext(),"Servicio destruido",Toast.LENGTH_SHORT).show();
+       // Toast.makeText(this.getApplicationContext(),"Servicio destruido",Toast.LENGTH_SHORT).show();
     }
 
     // Metodos implementados por parte del manejador GPS
@@ -88,9 +100,9 @@ public class ServicioGPS extends Service implements LocationListener{
             i.setAction("com.example.sistemas.centralactuarios.CHANGE_LOCATION_INTENT");
             i.putExtra("latitud", lat);
             i.putExtra("longitud", lng);
-            i.putExtra("hora",time);
+            i.putExtra("hora", time);
             sendBroadcast(i);//se envia el evento en un broadcast
-
+            writeData(archivo, Double.toString(lat) + "\t" + Double.toString(lng) + "\t" + Long.toString(time));
             Log.d("Tag ", "Broadcast enviado");
         }
         else{
@@ -143,5 +155,67 @@ public class ServicioGPS extends Service implements LocationListener{
             }
         }
     }
+
+
+
+    private boolean creaDirectorio() {
+        try{
+            File dir = new File(Context.MODE_PRIVATE + "/MisRutas/");
+            //Se crea el directorio en caso de no existir
+            if(!dir.exists()){
+                dir.mkdir();
+            }
+            }catch(Exception e){
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    private boolean crearArchivo(String nameFile) {
+        try {
+            // Creamos un objeto OutputStreamWriter, que será el que nos permita
+            // escribir en el archivo de texto. Si el archivo no existía se creará automáticamente.
+            // La ruta en la que se creará el archivo será /ruta de nuestro programa/data/data/
+            File file = new File(Context.MODE_PRIVATE  +"/"+ nameFile);
+            if(!file.exists()) {
+                OutputStreamWriter outSWMensaje = new OutputStreamWriter(
+                        openFileOutput(nameFile, Context.MODE_PRIVATE));
+                // Cerramos el flujo de escritura del archivo, este paso es obligatorio,
+                // de no hacerlo no se podrá acceder posteriormente al archivo.
+                outSWMensaje.flush();
+                outSWMensaje.close();
+                return true;
+            }
+            else
+                return true;
+        } catch (Exception e) {
+            Log.d("TAG", e.getMessage());
+            return false;
+        }
+    }
+
+
+    private void writeData(String nombre, String string){
+
+        try{
+            OutputStreamWriter outSWMensaje = new OutputStreamWriter(
+                        openFileOutput(nombre, Context.MODE_APPEND));
+                // Cerramos el flujo de escritura del archivo, este paso es obligatorio,
+                // de no hacerlo no se podrá acceder posteriormente al archivo.
+                outSWMensaje.append(string);
+                outSWMensaje.append("\r\n");
+                outSWMensaje.flush();
+                outSWMensaje.close();
+            Log.d("TAG", "ESCRITURA CORRECTA EN EL ARCHIVO");
+        }catch(Exception e){
+            Log.d("TAG",e.toString() + " ---ERROR EN LA ESCRITURA");
+            e.printStackTrace();
+
+        }
+
+    }
+
+
 
 }

@@ -15,7 +15,7 @@
     <string name="error_incorrect_password">La Contraseña es Incorrecta</string>
     <string name="error_field_required">Este Campo es Requerido</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email completions."</string>
-<string name="btnJustificarBoleta">Justificar boleta</string>
+    <string name="btnJustificarBoleta">Justificar boleta</string>
     <string name="btnActualizarDireccionBoleta">Actualizar dirección</string>
         <!--JUSTIFICACION-->
     <string name="titulo_justificacion">Justificación de Boletas</string>

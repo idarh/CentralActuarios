@@ -97,9 +97,9 @@ public class MapActivity extends Activity{
         marker_center = addMarker(17.0706371, -96.7392065,"center");
         mapView.getLayerManager().getLayers().add(marker_center);
 
-        mapView.getLayerManager().getLayers().add(addMarker(17.0806381, -96.7393090, "green"));
-        mapView.getLayerManager().getLayers().add(addMarker(17.0906381, -96.7394090,"red"));
-        mapView.getLayerManager().getLayers().add(addMarker(17.1006381, -96.7396090,"blue_home"));
+        mapView.getLayerManager().getLayers().add(addMarker(17.0806381, -96.7393090, "green","Boleta 1"));
+        mapView.getLayerManager().getLayers().add(addMarker(17.0906381, -96.7394090,"red","Boleta 2"));
+        mapView.getLayerManager().getLayers().add(addMarker(17.1006381, -96.7396090,"blue_home","Boleta 3"));
 
         //lista de puntos dentro de la ruta
         List<LatLong> lista = new ArrayList<LatLong>();
@@ -132,12 +132,18 @@ public class MapActivity extends Activity{
     }
 
 
+    private Marker addMarker(double lat, double lng, String type_marker, String numBoleta)
+    {
+        MyMarker marker = new MyMarker(getApplicationContext(), new LatLong(lat,lng),AndroidGraphicFactory.convertToBitmap(icon_select(type_marker)),0,0,numBoleta);
+        return  marker;
+    }
+
+
     private Marker addMarker(double lat, double lng, String type_marker)
     {
         MyMarker marker = new MyMarker(getApplicationContext(), new LatLong(lat,lng),AndroidGraphicFactory.convertToBitmap(icon_select(type_marker)),0,0);
         return  marker;
     }
-
 
 
 @Override
@@ -146,13 +152,6 @@ public class MapActivity extends Activity{
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.ctx_menu_edit_on_map,menu);
     }
-
-
-
-
-
-
-
 
     private Drawable icon_select(String type_marker){
         Drawable icon_image = null;
