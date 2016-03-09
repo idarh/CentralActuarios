@@ -4,37 +4,21 @@ package com.example.sistemas.centralactuarios;
  * Created by Matadamas on 26/02/2016.
  */
 
-import android.Manifest;
-import android.annotation.TargetApi;
-import android.app.Activity;
-import android.app.AlertDialog;
+//Toast.makeText(this, getIntent().getStringExtra("boleta"), Toast.LENGTH_SHORT).show();
 import android.app.Service;
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.nfc.Tag;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.IBinder;
-import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.widget.Toast;
-
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
 
 public class ServicioGPS extends Service implements LocationListener{
 
